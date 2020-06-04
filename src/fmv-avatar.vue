@@ -1,17 +1,19 @@
 <template>
   <component 
-    :is="noLink ? 'span' : 'b-link'"
+    :is="noLink ? element : 'b-link'"
     :to="to"
     :class="avatarClasses">
     <span
       v-if="title"
-      :class="titleClasses"
-      v-text="title" />
+      :class="titleClasses">
+      <slot>{{ title }}</slot>
+    </span>
     <b-img
       v-else
       :src="src" 
       :alt="alt" 
       :class="imgClasses" />
+    <slot name="after-img" />
   </component>
 </template>
 
@@ -28,6 +30,10 @@ import { props } from 'bootstrap-vue/esm/components/link/link'
 
 export default {
   props: {
+    element: {
+      type: String,
+      default: () => 'span'
+    },
     src: {
       type: String,
       default: null
@@ -36,8 +42,16 @@ export default {
       type: String,
       default: null
     },
+    imgClass: {
+      type: String,
+      default: null
+    },
     title: {
       type: [String, Boolean],
+      default: null
+    },
+    titleClass: {
+      type: String,
       default: null
     },
     size: {
@@ -73,14 +87,16 @@ export default {
       return [
         'avatar-img',
         this.rounded && !this.circle ? 'rounded' : null,
-        this.circle ? 'rounded-circle' : null
+        this.circle ? 'rounded-circle' : null,
+        this.imgClass ? this.imgClass : null
       ]
     },
     titleClasses() {
       return [
         'avatar-title',
         this.rounded && !this.circle ? 'rounded' : null,
-        this.circle ? 'rounded-circle' : null
+        this.circle ? 'rounded-circle' : null,
+        this.titleClass ? this.titleClass : null
       ]
     },
     avatarClasses() {
