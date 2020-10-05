@@ -1,3 +1,7 @@
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
 /**
  * The Link component is used in many other BV components.
  * As such, sharing its props makes supporting all its features easier.
@@ -273,4 +277,4 @@ var __vue_staticRenderFns__ = [];
     undefined
   );
 
-export { fmvAvatar as FmvAvatar };
+exports.FmvAvatar = fmvAvatar;

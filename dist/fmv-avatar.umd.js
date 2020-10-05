@@ -1,15 +1,91 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('bootstrap-vue/esm/components/link/link')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'bootstrap-vue/esm/components/link/link'], factory) :
-  (global = global || self, factory(global.FmvAvatar = {}, global.link));
-}(this, function (exports, link) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.FmvAvatar = {}));
+}(this, (function (exports) { 'use strict';
+
+  /**
+   * The Link component is used in many other BV components.
+   * As such, sharing its props makes supporting all its features easier.
+   * However, some components need to modify the defaults for their own purpose.
+   * Prefer sharing a fresh copy of the props to ensure mutations
+   * do not affect other component references to the props.
+   *
+   * https://github.com/vuejs/vue-router/blob/dev/src/components/link.js
+   * @return {{}}
+   */
+
+  var propsFactory = function propsFactory() {
+    return {
+      href: {
+        type: String,
+        default: null
+      },
+      rel: {
+        type: String,
+        default: null
+      },
+      target: {
+        type: String,
+        default: '_self'
+      },
+      active: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      // router-link specific props
+      to: {
+        type: [String, Object],
+        default: null
+      },
+      append: {
+        type: Boolean,
+        default: false
+      },
+      replace: {
+        type: Boolean,
+        default: false
+      },
+      event: {
+        type: [String, Array],
+        default: 'click'
+      },
+      activeClass: {
+        type: String // default: undefined
+
+      },
+      exact: {
+        type: Boolean,
+        default: false
+      },
+      exactActiveClass: {
+        type: String // default: undefined
+
+      },
+      routerTag: {
+        type: String,
+        default: 'a'
+      },
+      // nuxt-link specific prop(s)
+      noPrefetch: {
+        type: Boolean,
+        default: false
+      }
+    };
+  };
+  var props = propsFactory(); // @vue/component
 
   //
 
   var script = {
-    props: Object.assign({}, {element: {
+    props: {
+      element: {
         type: String,
-        default: function () { return 'span'; }
+        default: () => 'span'
       },
       src: {
         type: String,
@@ -34,7 +110,7 @@
       size: {
         type: String,
         default: null,
-        validator: function (val) { return ['xs', 'sm', 'lg', 'xl', 'xxl'].includes(val); }
+        validator: val => ['xs', 'sm', 'lg', 'xl', 'xxl'].includes(val)
       },
       landscape: {
         type: Boolean,
@@ -55,11 +131,12 @@
       status: {
         type: String,
         default: null,
-        validator: function (val) { return ['online', 'offline'].includes(val); }
-      }},
-      link.props),
+        validator: val => ['online', 'offline'].includes(val)
+      },
+      ...props
+    },
     computed: {
-      imgClasses: function imgClasses() {
+      imgClasses() {
         return [
           'avatar-img',
           this.rounded && !this.circle ? 'rounded' : null,
@@ -67,7 +144,7 @@
           this.imgClass ? this.imgClass : null
         ]
       },
-      titleClasses: function titleClasses() {
+      titleClasses() {
         return [
           'avatar-title',
           this.rounded && !this.circle ? 'rounded' : null,
@@ -75,12 +152,12 @@
           this.titleClass ? this.titleClass : null
         ]
       },
-      avatarClasses: function avatarClasses() {
+      avatarClasses() {
         return [
           'avatar',
           this.landscape ? 'avatar-4by3' : null,
-          this.size ? ("avatar-" + (this.size)) : null,
-          this.status ? ("avatar-" + (this.status)) : null
+          this.size ? `avatar-${this.size}` : null,
+          this.status ? `avatar-${this.status}` : null
         ]
       }
     }
@@ -172,19 +249,19 @@
   var normalizeComponent_1 = normalizeComponent;
 
   /* script */
-  var __vue_script__ = script;
+  const __vue_script__ = script;
   /* template */
   var __vue_render__ = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c(_vm.noLink ? _vm.element : 'b-link',{tag:"component",class:_vm.avatarClasses,attrs:{"to":_vm.to}},[(_vm.title)?_c('span',{class:_vm.titleClasses},[_vm._t("default",[_vm._v(_vm._s(_vm.title))])],2):_c('b-img',{class:_vm.imgClasses,attrs:{"src":_vm.src,"alt":_vm.alt}}),_vm._v(" "),_vm._t("after-img")],2)};
   var __vue_staticRenderFns__ = [];
 
     /* style */
-    var __vue_inject_styles__ = undefined;
+    const __vue_inject_styles__ = undefined;
     /* scoped */
-    var __vue_scope_id__ = undefined;
+    const __vue_scope_id__ = undefined;
     /* module identifier */
-    var __vue_module_identifier__ = undefined;
+    const __vue_module_identifier__ = undefined;
     /* functional template */
-    var __vue_is_functional_template__ = false;
+    const __vue_is_functional_template__ = false;
     /* style inject */
     
     /* style inject SSR */
@@ -206,4 +283,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));
